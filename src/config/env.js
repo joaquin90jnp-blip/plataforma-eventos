@@ -3,7 +3,7 @@ import "dotenv/config";
 export function parsePort(value) {
   if (value === undefined || value === "") return 3000;
   const port = Number(value);
-  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+  if (!/^\d+$/.test(value) || port < 1 || port > 65535) {
     throw new Error(
       `PORT inválido: "${value}". Debe ser un entero entre 1 y 65535.`,
     );

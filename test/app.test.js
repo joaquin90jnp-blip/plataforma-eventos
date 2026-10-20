@@ -30,5 +30,29 @@ describe("API", () => {
       .send('{"roto"');
     assert.equal(res.status, 400);
     assert.equal(res.body.status, "error");
+    assert.equal(res.body.message, "JSON inválido");
+  });
+
+  it("un método no soportado responde 405 con Allow", async () => {
+    const res = await request(app).post("/api/events").send({});
+    assert.equal(res.status, 405);
+    assert.equal(res.headers.allow, "GET, HEAD");
+    assert.equal(res.body.status, "error");
+  });
+
+  it("OPTIONS responde 204 con Allow", async () => {
+    const res = await request(app).options("/api/events");
+    assert.equal(res.status, 204);
+    assert.equal(res.headers.allow, "GET, HEAD");
+  });
+
+  it("un cuerpo demasiado grande responde 413 en español", async () => {
+    const res = await request(app)
+      .post("/api/events")
+      .set("Content-Type", "application/json")
+      .send({ data: "a".repeat(150000) });
+    assert.equal(res.status, 413);
+    assert.equal(res.body.status, "error");
+    assert.equal(res.body.message, "Cuerpo de la petición demasiado grande");
   });
 });

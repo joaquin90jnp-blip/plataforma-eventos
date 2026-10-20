@@ -89,6 +89,7 @@ proyecto-eventos/
 │   │   └── Event.js            # campos base de evento
 │   ├── middlewares/
 │   │   ├── notFound.js         # 404 en JSON
+│   │   ├── methodNotAllowed.js # 405 y OPTIONS por router
 │   │   └── errorHandler.js     # errores centralizados
 │   └── utils/
 │       └── asyncHandler.js     # captura errores de handlers async
@@ -125,6 +126,19 @@ Ruta inexistente:
 
 ```json
 { "status": "error", "message": "Ruta no encontrada: GET /api/no-existe" }
+```
+
+Método no permitido (`POST /api/events`):
+
+```json
+{ "status": "error", "message": "Método POST no permitido en /api/events" }
+```
+
+JSON inválido o cuerpo mayor a 100 kb:
+
+```json
+{ "status": "error", "message": "JSON inválido" }
+{ "status": "error", "message": "Cuerpo de la petición demasiado grande" }
 ```
 
 ## Próximas entregas

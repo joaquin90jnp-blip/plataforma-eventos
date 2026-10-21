@@ -10,6 +10,11 @@ describe("API", () => {
     assert.deepEqual(res.body, { status: "ok", message: "Servidor activo" });
   });
 
+  it("no expone el header X-Powered-By", async () => {
+    const res = await request(app).get("/api/health");
+    assert.equal(res.headers["x-powered-by"], undefined);
+  });
+
   it("GET /api/events responde lista vacía", async () => {
     const res = await request(app).get("/api/events");
     assert.equal(res.status, 200);

@@ -6,6 +6,12 @@ por variables de entorno y separación por capas, preparada para incorporar
 autenticación, roles, inscripciones, cupos y notificaciones en las próximas
 entregas.
 
+## Temática
+
+Plataforma de eventos e inscripciones: difusión de eventos, gestión de cupos y
+registro de participantes. Esta entrega cubre únicamente la base arquitectónica
+de la API.
+
 ## Tecnologías
 
 - Node.js (ESM, `import`/`export`)

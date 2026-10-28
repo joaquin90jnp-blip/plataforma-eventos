@@ -1,5 +1,13 @@
 import { env } from "./config/env.js";
+import { connectDB } from "./config/db.js";
 import app from "./app.js";
+
+try {
+  await connectDB(env.MONGO_URL);
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
 
 const server = app.listen(env.PORT, () => {
   console.log(`Servidor activo en http://localhost:${env.PORT}`);

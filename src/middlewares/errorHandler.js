@@ -28,6 +28,8 @@ export function errorHandler(err, req, res, next) {
     message = "Error interno del servidor";
   } else if (err.type === "entity.parse.failed") {
     message = "JSON inválido";
+  } else if (err.isOperational === true && err.expose === true) {
+    message = err.message;
   } else {
     message = CLIENT_ERROR_MESSAGES[status] ?? "Error en la petición";
   }

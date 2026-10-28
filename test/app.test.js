@@ -1,7 +1,26 @@
-import { describe, it } from "node:test";
+import { after, before, beforeEach, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import request from "supertest";
 import app from "../src/app.js";
+import {
+  clearDatabase,
+  startTestDB,
+  stopTestDB,
+} from "./support/mongo.js";
+
+let mongo;
+
+before(async () => {
+  mongo = await startTestDB();
+});
+
+after(async () => {
+  await stopTestDB(mongo);
+});
+
+beforeEach(async () => {
+  await clearDatabase();
+});
 
 describe("API", () => {
   it("GET /api/health responde 200", async () => {

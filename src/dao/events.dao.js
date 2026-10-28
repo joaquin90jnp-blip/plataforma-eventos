@@ -1,5 +1,5 @@
-const events = [];
+import Event from "../models/Event.js";
 
-export function findAll() {
-  return events.map((event) => ({ ...event }));
+export async function findAll() {
+  return Event.find().sort({ date: 1 }).lean();
 }

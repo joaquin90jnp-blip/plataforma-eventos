@@ -1,11 +1,14 @@
 import { after, before, beforeEach, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import request from "supertest";
-import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../src/app.js";
 import User from "../src/models/User.js";
 import { verifyPassword } from "../src/utils/hash.js";
+import {
+  clearDatabase,
+  startTestDB,
+  stopTestDB,
+} from "./support/mongo.js";
 
 const validBody = {
   first_name: "Ana",
@@ -17,18 +20,16 @@ const validBody = {
 let mongo;
 
 before(async () => {
-  mongo = await MongoMemoryServer.create();
-  await mongoose.connect(mongo.getUri(), { dbName: "eventos-test" });
+  mongo = await startTestDB();
   await User.init();
 });
 
 after(async () => {
-  await mongoose.disconnect();
-  await mongo.stop();
+  await stopTestDB(mongo);
 });
 
 beforeEach(async () => {
-  await User.deleteMany({});
+  await clearDatabase();
 });
 
 describe("POST /api/sessions/register", () => {
